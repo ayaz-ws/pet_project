@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .post-list-container {
+    max-width: 700px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .post-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  }
+
+  .post-title {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    text-decoration: none;
+  }
+
+  .post-title:hover {
+    text-decoration: underline;
+    color: #1a1a1a;
+  }
+
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .post-meta img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .post-body-preview {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+  }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4" style="max-width: 700px; margin: 0 auto;">
+  <h2 class="mb-0" style="font-size: 1.5rem; color: #31496b;">📚 Лента записей</h2>
+  <a href="{% url 'post_create' %}" class="btn btn-success" style="font-size: 0.9rem; padding: 6px 14px;">
+    ➕ Добавить
+  </a>
+</div>
+
+<div class="post-list-container">
+  {% for post in posts %}
+    <div class="post-card">
+      <div class="post-header">
+        <a href="{% url 'post_detail' post.pk %}" class="post-title">{{ post.title }}</a>
+        <div class="post-meta">
+          {% if post.author.profile.avatar %}
+            <img src="{{ post.author.profile.avatar.url }}" alt="Avatar">
+          {% else %}
+            <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #ccc;"></div>
+          {% endif %}
+          <span><a href="{% url 'profile' post.author.username %}"><strong>{{ post.author.username }}</strong></a> • {{ post.created|date:"d M Y, H:i" }}</span>
+        </div>
+      </div>
+      <div class="post-body-preview">
+        {{ post.body|truncatewords:50 }}
+      </div>
+    </div>
+  {% endfor %}
+  {% if is_paginated %}
+  <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">&laquo;</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        <li class="page-item disabled"><span class="page-link">Назад</span></li>
+      {% endif %}
+
+      <li class="page-item active">
+        <span class="page-link">
+          {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Вперёд</span></li>
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+</div>
+{% endblock %}

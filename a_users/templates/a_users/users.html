@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-center mb-4">Пользователи</h2>
+
+<div class="container">
+  <div class="row">
+    {% for profile in profiles %}
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm" style="border-radius: 10px;">
+          <div class="card-body text-center">
+            {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}"
+                   class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+            {% else %}
+              <div class="rounded-circle mb-3" style="width: 100px; height: 100px; background-color: #ddd;"></div>
+            {% endif %}
+            <h5 class="card-title">{{ profile.user.username }}</h5>
+            <p class="card-text" style="font-size: 0.9rem;">
+              {{ profile.location|default:"Местоположение не указано" }}
+            </p>
+            <a href="{% url 'profile' profile.user.username %}" class="btn btn-outline-primary btn-sm mt-2">В профиль</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">Нет пользователей для отображения.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Подтверждение Email</h2>
+
+  {% if profile.is_verify %}
+    <p>Ваш email уже подтвержден.</p>
+  {% else %}
+    <p>Нажмите кнопку ниже, чтобы подтвердить ваш email.</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Подтвердить</button>
+    </form>
+  {% endif %}
+{% endblock %}

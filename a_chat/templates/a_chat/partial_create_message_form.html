@@ -1,0 +1,6 @@
+<form id="form" class="d-flex flex-column gap-2">
+
+  {% csrf_token %}
+  {{ form.body }}
+  <button type="submit" class="btn btn-primary align-self-start">Отправить</button>
+</form>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card mx-auto" style="max-width: 600px; padding: 30px; border-radius: 10px; background: #ffffff; box-shadow: 0 6px 16px rgba(0,0,0,0.08);">
+  <h2 class="mb-4 text-center">Редактировать профиль</h2>
+  <form method="post" enctype="multipart/form-data" style="max-width: 100%;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success btn-sm px-4">Сохранить</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

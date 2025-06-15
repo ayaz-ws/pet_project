@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block header %}
+Website
+{% endblock %}
+
+
+{% block content %}
+<style>
+  .form-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .form-container h2 {
+    font-family: Georgia, serif;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #2c3e50;
+  }
+
+  .form-container label {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .form-container input[type="text"],
+  .form-container textarea,
+  .form-container select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fafafa;
+  }
+
+  .form-container input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .form-container input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="form-container">
+  <h2>{% if form.instance.pk %}Редактировать пост{% else %}Создать пост{% endif %}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Создать">
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% for message in messages reversed %}
+
+{% include "a_chat/partial_message_detail.html" %}
+
+{% empty %}
+    <p class="text-muted">Сообщений пока нет.</p>
+{% endfor %}

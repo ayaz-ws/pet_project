@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Чат - {{ chatname }}{% endblock %}
+
+{% block content %}
+<!-- Шапка чата -->
+<div class="card mb-4" style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+  <div class="card-header bg-white d-flex align-items-center" style="padding: 15px 20px;">
+    <strong style="font-size: 1.2rem;">{{ chatname }}</strong>
+  </div>
+
+  <!-- Тело чата -->
+  <div id="chat-box" class="card-body"
+    style="max-height: 450px; overflow-y: auto; background-color: #f1f5f9; padding: 15px;">
+    {% include "a_chat/partial_message_list.html" %}
+  </div>
+</div>
+
+<!-- Форма отправки -->
+{% include "a_chat/partial_create_message_form.html" %}
+
+<script>
+  var socket = new WebSocket(`ws://${window.location.host}/ws/{{chat_id}}/`)
+
+  socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    console.log({"data": data})
+    if (data.html) {
+      const chatBox = document.getElementById("chat-box");
+      chatBox.insertAdjacentHTML("beforeend", data.html);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+
+  let form = document.getElementById("form")
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+    let text = e.target.body.value
+    socket.send(JSON.stringify({ "text": text }))
+    form.reset()
+  })
+
+
+
+  // При первом открытии страницы
+  window.addEventListener('load', function () {
+    const chatBox = document.getElementById('chat-box');
+    if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  
+</script>
+
+{% endblock %}

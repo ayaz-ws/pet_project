@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .about-project {
+    max-width: 720px;
+    margin: 30px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #31496b;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+  .about-project h1 {
+    color: #0c2e60; /* bootstrap primary blue */
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .about-project p,
+  .about-project ul {
+    margin-bottom: 20px;
+  }
+  .about-project ul {
+    padding-left: 1.3rem;
+    list-style-type: disc;
+  }
+  .about-project li {
+    margin-bottom: 8px;
+  }
+</style>
+
+<div class="about-project">
+  <h1>О проекте</h1>
+
+  <p>Данный проект был создан на базе фреймворка <strong>Django</strong>.</p>
+
+  <p>Данный проект имеет следующие части:</p>
+  <ul>
+    <li><a href="{% url 'posts' %}">Блог</a> — создание заметок как частных, так и общедоступных другим пользователям, просмотр публичных записей других пользователей, всех записей.</li>
+    <li><a href="{% url 'users'%}">Каталог</a> пользователей, который предоставляет возможность просматривать их профиль, записи, а также начинать с ними диалог.</li>
+    <li><a href="{% url 'chat_list' %}">Чат</a> — список диалогов, личная переписка с другими пользователями.</li>
+  </ul>
+
+  <p>В данном проекте также были использованы следующие инструменты:</p>
+  <ul>
+    <li><strong>WebSocket (Django Channels)</strong> — используется в приложении чата между пользователями, обеспечивает мгновенную передачу/получение сообщений и обновление чата без HTTP-запросов и перезагрузки страницы.</li>
+    <li><strong>Celery</strong> — используется для выполнения фоновых задач: отправка сообщений по email для подтверждения профиля и периодическая рассылка информации о просмотрах пользователям с записями (по умолчанию отключено).</li>
+    <li><strong>Redis</strong> — используется как кэш для WebSocket и очередь сообщений для Celery.</li>
+  </ul>
+</div>
+{% endblock content %}

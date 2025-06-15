@@ -1,0 +1,39 @@
+
+      <div id="change" class="d-flex mb-3 {% if message.sender == user %}justify-content-end text-end{% else %}justify-content-start text-start{% endif %}">
+        
+        {% if message.sender != user %}
+        <!-- Аватар слева для собеседника -->
+        <img src="{{ message.sender.profile.avatar.url|default:'/static/default_avatar.png' }}"
+             alt="avatar"
+             class="rounded-circle me-2"
+             style="width: 36px; height: 36px; object-fit: cover; border: 1px solid #ccc;">
+        {% endif %}
+
+        <!-- Сообщение -->
+        <div style="
+            max-width: 40%;
+            background-color: {% if message.sender == user %}#d1e7dd{% else %}#ffffff{% endif %};
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+        ">
+          <div class="fw-semibold mb-1" style="font-size: 0.9rem;">
+            {{ message.sender.username }}
+          </div>
+          <div style="word-break: break-word;">
+            {{ message.body }}
+          </div>
+          <div class="text-muted small mt-1" style="font-size: 0.75rem;">
+            {{ message.created|date:"H:i d.m.Y" }}
+          </div>
+        </div>
+
+        {% if message.sender == user %}
+        <!-- Аватар справа для автора -->
+        <img src="{{ message.sender.profile.avatar.url|default:'/static/default_avatar.png' }}"
+             alt="avatar"
+             class="rounded-circle ms-2"
+             style="width: 36px; height: 36px; object-fit: cover; border: 1px solid #ccc;">
+        {% endif %}
+      </div>
+ 

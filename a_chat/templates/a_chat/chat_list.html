@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Мои диалоги</h2>
+
+{% if page_obj %}
+  <div class="list-group">
+
+    {% for chat in page_obj %}
+      {% for member in chat.members.all %}
+        {% if member != user %}
+        <a href="{% url 'start_chat' member.id %}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+          <img src="{{ member.profile.avatar.url|default:'/static/default_avatar.png' }}" alt="{{ member.username }} avatar"
+               class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #ccc;">
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-0">{{ member.profile.nickname|default:member.username }}</h5>
+              <small class="text-muted">{{ member.profile.location|default:"Локация неизвестна" }}</small>
+            </div>
+            {% if member.profile.bio %}
+              <p class="mb-0 text-muted small">{{ member.profile.bio|truncatechars:80 }}</p>
+            {% else %}
+              <p class="mb-0 text-muted small">Нет описания</p>
+            {% endif %}
+          </div>
+        </a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+  </div>
+
+  <!-- Пагинация -->
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">Первая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+        </li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+      </li>
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+{% else %}
+  <p class="text-muted">Здесь пока ничего нет.</p>
+  <a href="{% url 'users' %}" class="btn btn-outline-primary mt-3">Перейти к каталогу пользователей</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .post-detail-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Контейнер для верхней панели с кнопкой назад и просмотрами */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .back-btn {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: #007bff;
+    font-weight: 500;
+  }
+
+  .back-btn:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+
+  .views-counter {
+    font-size: 0.9rem;
+    color: #888;
+    font-weight: 500;
+    user-select: none;
+  }
+
+  .post-title {
+    font-family: Georgia, serif;
+    font-size: 2.3rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+  }
+
+  .post-meta {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 25px;
+  }
+
+  .post-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 35px;
+  }
+
+  .post-actions a {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: inline-block;
+  }
+
+  .edit-btn {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .delete-btn:hover {
+    background-color: #a91e2b;
+  }
+</style>
+
+<div class="post-detail-container">
+  <div class="top-bar">
+    <a href="{% url 'posts' %}" class="back-btn">← Назад к списку</a>
+    <div class="views-counter">
+      👁️ Просмотров: {{ post.view_count }}
+    </div>
+  </div>
+
+  <h1 class="post-title">{{ post.title }}</h1>
+
+  <p class="post-meta">
+    Автор: <strong>{{ post.author.username }}</strong> • {{ post.created|date:"d M Y, H:i" }}
+  </p>
+
+  <div class="post-body">
+    {{ post.body|linebreaks }}
+  </div>
+
+  {% if post.author == user %}
+  <div class="post-actions">
+    <a href="{% url 'post_update' post.pk %}" class="edit-btn">✏️ Редактировать</a>
+    <a href="{% url 'post_delete' post.pk %}" class="delete-btn">🗑️ Удалить</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

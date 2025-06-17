@@ -36,11 +36,11 @@
 Брокер сообщений для Celery.
 Кэш для WebSocket-подключений.
 
-📦 Установка и запуск (локально)
-git clone https://github.com/ayaz-ws/pet_project.git
-cd your-project
-python -m venv venv
-source venv/bin/activate   # или venv\Scripts\activate для Windows
+📦 Установка и запуск (локально)  
+git clone https://github.com/ayaz-ws/pet_project.git  
+cd your-project  
+python -m venv venv  
+source venv/bin/activate   # или venv\Scripts\activate для Windows  
 pip install -r requirements.txt
 
 

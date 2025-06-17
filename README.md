@@ -37,7 +37,7 @@
 Кэш для WebSocket-подключений.
 
 📦 Установка и запуск (локально)
-git clone https://github.com/ayaz-ws/your-project.git
+git clone https://github.com/ayaz-ws/pet_project.git
 cd your-project
 python -m venv venv
 source venv/bin/activate   # или venv\Scripts\activate для Windows
